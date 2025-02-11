@@ -1,5 +1,6 @@
 from django.db import models
 
+
 # Create your models here.
 
 class User(models.Model):
@@ -21,8 +22,7 @@ class Post(models.Model):
 
 
     def __str__(self):
-        return self.content[:50]
-
+        return f"Post by {self.author.username} at {self.created_at}"
 
 
 class Comment(models.Model):
