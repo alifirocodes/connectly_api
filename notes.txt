@@ -1,0 +1,13 @@
+python --version
+
+
+Python env activate
+Set-ExecutionPolicy Unrestricted -Scope Process
+.\env\Scripts\activate
+
+REQUIREMENTS
+pip install django # django-admin --version
+pip install djangorestframework
+pip install djangorestframework-simplejwt
+pip install django-cors-headers
+
