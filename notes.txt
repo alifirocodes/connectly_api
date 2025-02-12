@@ -5,9 +5,16 @@ Python env activate
 Set-ExecutionPolicy Unrestricted -Scope Process
 .\env\Scripts\activate
 
+python manage.py makemigrations
+python manage.py migrate
+
 REQUIREMENTS
 pip install django # django-admin --version
 pip install djangorestframework
 pip install djangorestframework-simplejwt
 pip install django-cors-headers
-
+pip install django-extensions
+pip install django[argon2]
+pip install bcrypt
+pip install Werkzeug
+pip install pyOpenSSL
