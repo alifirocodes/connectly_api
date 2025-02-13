@@ -12,6 +12,9 @@ from rest_framework import status
 from .models import User, Post, Comment
 from .serializers import UserSerializer, PostSerializer, CommentSerializer
 
+# Security
+from django.contrib.auth.models import User
+
 
 
 # Create your views here.
@@ -21,7 +24,30 @@ def get_users(request):
         return JsonResponse(users, safe=False)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
+    
+# Create a new user (POST)
+@csrf_exempt
+def create_user(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            username = data.get("username")
+           
+            # Check if the username already exists
+            if User.objects.filter(username=username).exists():
+                return JsonResponse({"error": "Username already exists!"}, status=400)
+           
+            # Create a new user with a hashed password
+            user = User.objects.create_user(
+                username=username,
+                email=data.get("email", ""),  # Optional email field
+                password=data.get("password")  # Secure password hashing
+            )
+            return JsonResponse({"message": "User created successfully!", "user_id": user.id}, status=201)
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=400)
 
+'''
 @csrf_exempt
 def create_user(request):
     if request.method == 'POST':
@@ -31,6 +57,7 @@ def create_user(request):
             return JsonResponse({'id': user.id, 'message': 'User created successfully'}, status=201)
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=400)
+'''
 
 @csrf_exempt
 def update_user(request, id):
